@@ -10,6 +10,9 @@ import SalesmanDashboard from "../Pages/DashBoard/SalesMan/SalesmanDashboard";
 import AddProducts from "../Pages/DashBoard/SalesMan/AddProducts/AddProducts";
 import ProductList from "../Pages/DashBoard/SalesMan/ProductList/ProductList";
 import ManageProducts from "../Pages/DashBoard/AdminPanel/ManageProducts/ManageProducts";
+import AllProducts from "../Pages/Home/AllProducts/AllProducts";
+import Abc from "../Pages/DashBoard/UserPanel/Abc";
+import SelectedProducts from "../Pages/DashBoard/UserPanel/SelectedProducts/SelectedProducts";
 
 export const router = createBrowserRouter([
     {
@@ -27,6 +30,10 @@ export const router = createBrowserRouter([
             {
                 path: '/signUp',
                 element: <SignUp />
+            },
+            {
+                path: '/allProducts',
+                element: <AllProducts />
             },
             // Admin Routes
             {
@@ -49,6 +56,11 @@ export const router = createBrowserRouter([
             {
                 path: 'productList',
                 element: <ProductList />
+            },
+            // User Routes
+            {
+                path: 'selectedProducts',
+                element: <SelectedProducts />
             }
         ]
     },

@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 const useProducts = () => {
     const { user } = useAuth();
 
-    console.log("Client Email: ", user?.email);
+    // console.log("Client Email: ", user?.email);
 
     const { refetch, data: products = [] } = useQuery({
         queryKey: ['getProducts', user?.email],
@@ -15,7 +15,7 @@ const useProducts = () => {
         },
     })
 
-    console.log(products);
+    // console.log(products);
 
     return [products, refetch]
 };

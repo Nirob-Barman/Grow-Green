@@ -5,7 +5,7 @@ const UserDashboard = () => {
 
     const navOptions = (
         <ul className="flex items-center">
-            <li><Link to="/">Home</Link></li>
+            <li><Link to="/selectedProducts">WishListed Product</Link></li>
             <li><Link to="/road">Home</Link></li>
             <li><Link to="/map">Home</Link></li>
             {/* <li><Link to="/instructors">Instructors</Link></li> */}

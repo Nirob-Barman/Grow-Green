@@ -27,7 +27,7 @@ const SignUp = () => {
 
                 updateUserProfile(data.name, data.photoURL)
                     .then(() => {
-                        console.log('User Profile info Updated');
+                        // console.log('User Profile info Updated');
                         const saveUser = {
                             name: data.name,
                             email: data.email,
@@ -160,6 +160,7 @@ const SignUp = () => {
                             <label className="label">
                                 <span className="text-base label-text">Photo URL</span>
                             </label>
+
                             <input
                                 type="text"
                                 placeholder="Photo URL"

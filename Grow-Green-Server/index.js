@@ -52,6 +52,15 @@ async function run() {
 
         const usersCollection = client.db("growGreen").collection("users");
         const productsCollection = client.db("growGreen").collection("products");
+        const bookingProductsCollection = client.db("growGreen").collection("bookings");
+
+
+
+
+
+
+
+
 
 
 
@@ -61,6 +70,9 @@ async function run() {
 
             res.send({ token })
         })
+
+
+
 
 
 
@@ -131,7 +143,7 @@ async function run() {
 
 
 
-       
+
 
 
 
@@ -281,6 +293,63 @@ async function run() {
 
 
 
+
+
+
+
+
+
+
+
+        // Booking Products
+        // Create a new product
+        app.post('/selectedProducts', async (req, res) => {
+            try {
+                const productData = req.body; // Class data received from the client
+                // console.log('selected products' ,productData);
+                // Omit the _id field to let MongoDB generate a unique identifier
+                // delete productData._id;
+
+                const result = await bookingProductsCollection.insertOne(productData);
+
+                res.send(productData);
+
+            } catch (error) {
+                console.error('Error creating Product:', error);
+                res.status(500).json({ error: 'Server error' });
+            }
+        });
+
+        app.get('/selectedProducts/:email', async (req, res) => {
+            try {
+                const userEmail = req.query.email; // Get the user's email from the query parameter
+
+                const email = req.params.email;
+                const query = { bookingEmail: email };
+
+                // Fetch the products selected by the user based on their email
+                // const selectedProducts = await bookingProductsCollection.find({ email: userEmail }).toArray();
+                const selectedProducts = await bookingProductsCollection.find(query).toArray();
+
+
+                res.status(200).json(selectedProducts);
+            } catch (error) {
+                console.error('Error fetching selected products:', error);
+                res.status(500).json({ error: 'Server error' });
+            }
+        });
+
+        app.delete('/selectedProducts/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            try {
+                const result = await bookingProductsCollection.deleteOne(query);
+                res.json({ message: 'Product deleted successfully', result });
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({ message: 'Server error' });
+            }
+        })
 
 
 

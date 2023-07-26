@@ -7,9 +7,8 @@ import SalesmanDashboard from '../../DashBoard/SalesMan/SalesmanDashboard';
 const NavBar = () => {
 
     const { user, userRole, logOut } = useAuth();
-    console.log(user);
-    console.log(userRole);
-
+    // console.log(user);
+    // console.log(userRole);
 
     const handleLogOut = () => {
         logOut()
@@ -21,6 +20,7 @@ const NavBar = () => {
     const navOptions = (
         <ul className="flex items-center">
             <li><Link to="/">Home</Link></li>
+            <li><Link to="/allProducts">Products</Link></li>
             {/* <li><Link to="/instructors">Instructors</Link></li> */}
             {/* <li><Link to="/dashboard/dashboardPage">DashBoard</Link></li> */}
 
