@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 import useAuth from '../../../Hooks/useAuth';
 
 const AllProducts = () => {
-
     const [products, setProducts] = useState([]);
     const { user, userRole } = useAuth();
     const [selectedProducts, setSelectedProducts] = useState([]);
@@ -21,7 +20,6 @@ const AllProducts = () => {
             fetchSelectedProducts();
         }
     }, [user, userRole]);
-
 
     const fetchProducts = async () => {
         try {
@@ -48,7 +46,6 @@ const AllProducts = () => {
         try {
             // Check if the class is already selected by the current user
             if (selectedProducts.includes(productId)) {
-                // if (selectedProducts.includes(uniqueIdentifier)) {
                 Swal.fire({
                     icon: 'info',
                     title: 'Product Already Selected',
@@ -58,7 +55,7 @@ const AllProducts = () => {
             }
 
 
-            // Send the class data to the server
+            // Send the productItem data to the server
             try {
                 // Assuming productItem is an object containing the product details
                 const { _id, productName, productImage, availableProducts, price, category, status, displayName, email } = productItem;
@@ -76,7 +73,7 @@ const AllProducts = () => {
                     status,
                     bookingEmail: user?.email,
                     bookingUser: user?.displayName,
-                    payStatus: 'unpaid'
+                    payStatus: 'unpaid',
                 });
 
                 // If the request is successful, handle the response or any other necessary actions

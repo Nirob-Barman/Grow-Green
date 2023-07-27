@@ -21,8 +21,6 @@ const NavBar = () => {
         <ul className="flex items-center">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/allProducts">Products</Link></li>
-            {/* <li><Link to="/instructors">Instructors</Link></li> */}
-            {/* <li><Link to="/dashboard/dashboardPage">DashBoard</Link></li> */}
 
             {
                 user ? <div className='flex items-center'>
@@ -62,7 +60,9 @@ const NavBar = () => {
                 <div className="navbar-end">
                     {/* <a className="btn">User Data</a> */}
 
-                    {
+                    <Link to='dashboard'>DashBoard</Link>
+
+                    {/* {
                         userRole === 'admin' && <AdminDashboard />
                     }
                     
@@ -72,7 +72,7 @@ const NavBar = () => {
                     
                     {
                         userRole === 'salesman' && <SalesmanDashboard />
-                    }
+                    } */}
 
                 </div>
             </div>

@@ -1,9 +1,15 @@
 import axios from "axios";
 import useWishedProducts from "../../../../Hooks/useWishedProducts";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const SelectedProducts = () => {
     const [wishListedProducts, refetch] = useWishedProducts();
+
+    const total = wishListedProducts.reduce((sum, item) => sum + parseFloat(item.price), 0);
+    // console.log(total);
+    const price = total.toFixed(2)
+    console.log(price);
 
     const handleDeleteProduct = async (productId) => {
         try {
@@ -32,35 +38,59 @@ const SelectedProducts = () => {
         }
     };
 
-
     return (
-        <div>
-            <h2 className="text-2xl font-bold mb-4">My Selected Products</h2>
-            {wishListedProducts.map((product) => (
-                <div key={product._id} className="border p-4 mb-4">
-                    {/* Product Info */}
-                    <p className="font-bold mb-2">{product.productName}</p>
-                    <img src={product.productImage} alt={product.productName} className="w-20 h-20 object-cover mb-2" />
-                    <p className="mb-2">Supplier: {product.supplierName}</p>
-                    <p className="mb-2">Price: ${product.price}</p>
+        <div className="container mx-auto my-8">
+            <h2 className="text-3xl font-bold mb-4">My Selected Products</h2>
+            <div className="my-2">
 
-                    {/* Buttons */}
-                    <div className="flex justify-end">
-                        <button
-                            className="px-4 py-2 bg-red-500 text-white mr-2 rounded"
-                            onClick={() => handleDeleteProduct(product._id)}
-                        >
-                            Delete
-                        </button>
-                        <button
-                            className="px-4 py-2 bg-blue-500 text-white rounded"
-                            onClick={() => {
-                                // Implement the logic to handle payment for the selected product
-                                console.log(`Paying for product with ID: ${product.productId}`);
-                            }}
-                        >
-                            Pay
-                        </button>
+
+
+                <Link to='/dashboard/payment'>
+                    <button
+                        className="px-4 py-2 bg-blue-500 text-white rounded"
+                        onClick={() => {
+                            // Implement the logic to handle payment for the selected product
+
+                        }}
+                    >
+                        Pay total: {price}
+                    </button>
+                </Link>
+            </div>
+
+            {wishListedProducts.map((product) => (
+                <div key={product._id} className="border rounded p-4 mb-4 shadow-md">
+                    <div className="flex justify-between items-center">
+                        {/* Product Info */}
+                        <div>
+                            <p className="text-xl font-bold mb-2">{product.productName}</p>
+                            <p className="text-gray-600 mb-2">Supplier: {product.supplierName}</p>
+                            <p className="text-gray-600 mb-2">Price: ${product.price}</p>
+                            <p className="text-gray-600 mb-2">Float Price: ${parseFloat(product.price).toFixed(2)}</p>
+                        </div>
+
+                        {/* Buttons */}
+                        <div>
+                            <button
+                                className="px-4 py-2 bg-red-500 text-white mr-2 rounded"
+                                onClick={() => handleDeleteProduct(product._id)}
+                            >
+                                Delete
+                            </button>
+
+                            {/* <Link to='/dashboard/payment'>
+                                <button
+                                    className="px-4 py-2 bg-blue-500 text-white rounded"
+                                    onClick={() => {
+                                        // Implement the logic to handle payment for the selected product
+                                        console.log(`Paying for product with ID: ${product.productId}`);
+                                    }}
+                                >
+                                    Pay
+                                </button>
+                            </Link> */}
+
+                        </div>
                     </div>
                 </div>
             ))}
@@ -69,3 +99,6 @@ const SelectedProducts = () => {
 };
 
 export default SelectedProducts;
+
+
+

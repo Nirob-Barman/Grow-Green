@@ -11,8 +11,10 @@ import AddProducts from "../Pages/DashBoard/SalesMan/AddProducts/AddProducts";
 import ProductList from "../Pages/DashBoard/SalesMan/ProductList/ProductList";
 import ManageProducts from "../Pages/DashBoard/AdminPanel/ManageProducts/ManageProducts";
 import AllProducts from "../Pages/Home/AllProducts/AllProducts";
-import Abc from "../Pages/DashBoard/UserPanel/Abc";
 import SelectedProducts from "../Pages/DashBoard/UserPanel/SelectedProducts/SelectedProducts";
+import Dashboard from "../Pages/DashBoard/Dashboard";
+import PrivateRoute from "./PrivateRoute";
+import Payment from "../Pages/DashBoard/Payment/Payment";
 
 export const router = createBrowserRouter([
     {
@@ -58,10 +60,25 @@ export const router = createBrowserRouter([
                 element: <ProductList />
             },
             // User Routes
+            // {
+            //     path: 'selectedProducts',
+            //     element: <SelectedProducts />
+            // }
+        ]
+    },
+    {
+        path: '/dashboard',
+        element: <PrivateRoute><Dashboard /></PrivateRoute>,
+        children: [
+            {
+                path: 'payment',
+                element: <Payment />
+            },
+            // User Routes
             {
                 path: 'selectedProducts',
                 element: <SelectedProducts />
             }
         ]
-    },
+    }
 ]);

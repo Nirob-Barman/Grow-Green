@@ -4,8 +4,35 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import useAuth from '../../Hooks/useAuth';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
+import { useState } from 'react';
+
+const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 
 const SignUp = () => {
+
+    const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`
+
+    // Add a state to store the uploaded image URL
+    const [imageUrl, setImageUrl] = useState('');
+
+    // Function to handle image upload to ImgBB
+    const handleImageUpload = async (e) => {
+        try {
+            const formData = new FormData();
+            formData.append('image', e.target.files[0]);
+
+            // Upload the image to ImgBB server
+            const response = await axios.post(img_hosting_url, formData);
+
+            // Get the image URL from the response and set it in the state
+            if (response.data && response.data.data && response.data.data.url) {
+                setImageUrl(response.data.data.url);
+            }
+        } catch (error) {
+            console.error('Failed to upload image:', error);
+        }
+    };
+
     const {
         register,
         handleSubmit,
@@ -19,6 +46,13 @@ const SignUp = () => {
 
     const onSubmit = (data) => {
         console.log(data); // Perform sign up logic or submit form data
+
+
+        // Check if an image has been uploaded to ImgBB
+        if (imageUrl) {
+            data.photoURL = imageUrl; // Set the photoURL to the ImgBB image URL
+        }
+
 
         createUser(data.email, data.password)
             .then((result) => {
@@ -156,7 +190,7 @@ const SignUp = () => {
                         </div>
                     </div>
                     <div className="md:flex md:space-x-4">
-                        <div className="md:w-1/2">
+                        {/* <div className="md:w-1/2">
                             <label className="label">
                                 <span className="text-base label-text">Photo URL</span>
                             </label>
@@ -168,7 +202,20 @@ const SignUp = () => {
                                 {...register('photoURL')}
                             />
                             {errors.photoURL && <p className="text-red-500 text-xs mt-1">{errors.photoURL.message}</p>}
+                        </div> */}
+
+                        <div className="md:w-1/2">
+                            <label className="label">
+                                <span className="text-base label-text">Photo URL</span>
+                            </label>
+                            <input
+                                type="file" // Change the input type to file
+                                className="w-full input input-bordered"
+                                onChange={handleImageUpload} // Call the handleImageUpload function on file change
+                            />
+                            {errors.photoURL && <p className="text-red-500 text-xs mt-1">{errors.photoURL.message}</p>}
                         </div>
+
                         <div className="md:w-1/2">
                             <label className="label">
                                 <span className="text-base label-text">Gender</span>

@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import useAuth from '../../../../Hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
+const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
+
 const AddProducts = () => {
+
+    const [imageUrl, setImageUrl] = useState('');
     const { register, handleSubmit, reset } = useForm();
+    const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`
 
     // Assuming you have implemented useAuth() correctly to get user info
     const { user } = useAuth();
@@ -16,10 +21,37 @@ const AddProducts = () => {
 
     const from = location.state?.from?.pathname || "/";
 
+
+    // Function to handle image upload to ImgBB
+    const handleImageUpload = async (e) => {
+        try {
+            const formData = new FormData();
+            formData.append('image', e.target.files[0]);
+
+            // Upload the image to ImgBB server
+            const response = await axios.post(img_hosting_url, formData);
+
+            // Get the image URL from the response and set it in the state
+            if (response.data && response.data.data && response.data.data.url) {
+                setImageUrl(response.data.data.url);
+            }
+        } catch (error) {
+            console.error('Failed to upload image:', error);
+        }
+    };
+
+
+
     const onSubmit = async (data) => {
         try {
             // Add the pending status to the form data
             const formData = { ...data, status: 'pending' };
+
+            // If an image has been uploaded, add the image URL to the form data
+            if (imageUrl) {
+                formData.productImage = imageUrl;
+            }
+
 
             // Perform your database submission logic here
             // Set the status field to "pending" when creating a class
@@ -80,7 +112,7 @@ const AddProducts = () => {
                 </div>
 
                 {/* Add other form fields here */}
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                     <label htmlFor="productImage" className="mb-1 font-medium text-gray-700">
                         Product Image
                     </label>
@@ -88,6 +120,19 @@ const AddProducts = () => {
                         type="text"
                         id="productImage"
                         {...register('productImage', { required: true })}
+                        className="px-3 py-2 border rounded-md"
+                    />
+                </div> */}
+
+
+                <div className="flex flex-col">
+                    <label htmlFor="productImage" className="mb-1 font-medium text-gray-700">
+                        Product Image
+                    </label>
+                    <input
+                        type="file" // Change the input type to file
+                        id="productImage"
+                        onChange={handleImageUpload} // Call the handleImageUpload function on file change
                         className="px-3 py-2 border rounded-md"
                     />
                 </div>
@@ -155,8 +200,12 @@ const AddProducts = () => {
                 </div>
 
                 {/* Add button */}
-                <button type="submit" className="px-4 py-2 text-white bg-blue-500 rounded-md">
-                    Add Product
+                <button
+                    type="submit"
+                    className="px-4 py-2 text-white bg-green-500 rounded-md"
+                    style={{ color: 'blue' }}
+                >
+                    Submit Product
                 </button>
             </form>
         </div>
