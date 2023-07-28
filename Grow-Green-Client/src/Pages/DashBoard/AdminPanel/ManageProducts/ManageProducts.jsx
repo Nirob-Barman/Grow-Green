@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // Import the daisyUI classes for the modal component
@@ -91,8 +91,8 @@ const ManageProducts = () => {
                             <th className="px-4 py-2">Actions</th>
                         </tr>
                     </thead>
-                    
-                    
+
+
                     <tbody>
                         {products.map(product => (
                             <tr key={product._id}>

@@ -1,13 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import useAuth from '../../../Hooks/useAuth';
+import useSweetAlert from '../../../Hooks/useSweetAlert';
 
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
     const { user, userRole } = useAuth();
+    console.log(user);
+
     const [selectedProducts, setSelectedProducts] = useState([]);
+    const sweetAlert = useSweetAlert();
+
+    const handlePurchase = () => {
+        if (user) {
+            // Handle the product selection logic if the user is logged in
+            // handleSelectedProducts(productId, productItem);
+        } else {
+            // Show a SweetAlert confirmation before navigating to the login page
+            sweetAlert.showLoginConfirmationAlert(
+                () => {
+                    // The function to be executed when the user clicks "Go to Login"
+                    // This will navigate the user to the login page
+                    // console.log('Navigating to login page...');
+                },
+                () => {
+                    // The function to be executed when the user clicks "Cancel"
+                    // This will go back to the previous page
+                    // console.log('Going back to the previous page...');
+                    window.history.back();
+                }
+            );
+        }
+    };
 
     useEffect(() => {
         // Fetch products from the server when the component mounts
@@ -46,14 +71,9 @@ const AllProducts = () => {
         try {
             // Check if the class is already selected by the current user
             if (selectedProducts.includes(productId)) {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Product Already Selected',
-                    text: 'You have already selected this Product.',
-                });
+                sweetAlert.showProductAlreadySelectedAlert();
                 return; // Exit the function if already selected
             }
-
 
             // Send the productItem data to the server
             try {
@@ -82,12 +102,7 @@ const AllProducts = () => {
             }
 
             // Show success message using SweetAlert2
-            Swal.fire({
-                icon: 'success',
-                title: 'Product Selected!',
-                text: 'You have successfully selected the product.',
-            });
-
+            sweetAlert.showProductSelectedAlert();
 
             // console.log('Class selected:', classId);
             console.log('Class:', productItem);
@@ -141,12 +156,10 @@ const AllProducts = () => {
                                 <p className="text-red-500">
                                     {/* Please log in to select a course */}
                                     <Link to="/login" className="btn btn-error">
-                                        <button>Log in to Purchase</button>
+                                        <button onClick={handlePurchase}>Purchase</button>
                                     </Link>
                                 </p>
                             )}
-
-
                         </div>
                     ))}
                 </div>

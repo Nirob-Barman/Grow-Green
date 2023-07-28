@@ -6,7 +6,6 @@ import Home from "../Pages/Home/Home/Home";
 import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
 import ManageUsers from "../Pages/DashBoard/AdminPanel/ManageUsers";
-import SalesmanDashboard from "../Pages/DashBoard/SalesMan/SalesmanDashboard";
 import AddProducts from "../Pages/DashBoard/SalesMan/AddProducts/AddProducts";
 import ProductList from "../Pages/DashBoard/SalesMan/ProductList/ProductList";
 import ManageProducts from "../Pages/DashBoard/AdminPanel/ManageProducts/ManageProducts";
@@ -15,11 +14,16 @@ import SelectedProducts from "../Pages/DashBoard/UserPanel/SelectedProducts/Sele
 import Dashboard from "../Pages/DashBoard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import Payment from "../Pages/DashBoard/Payment/Payment";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import AdminRoute from "./AdminRoute";
+import SalesmanRoute from "./SalesmanRoute";
+import UserRoute from "./UserRoute";
 
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <Main />,
+        errorElement: <ErrorPage />,
         children: [
             {
                 path: '/',
@@ -37,33 +41,6 @@ export const router = createBrowserRouter([
                 path: '/allProducts',
                 element: <AllProducts />
             },
-            // Admin Routes
-            {
-                path: 'manageUsers',
-                element: <ManageUsers />
-            },
-            {
-                path: 'manageProducts',
-                element: <ManageProducts />
-            },
-            // Salesman Routes
-            {
-                path: 'salesmanDashboard',
-                element: <SalesmanDashboard />
-            },
-            {
-                path: 'addProducts',
-                element: <AddProducts />
-            },
-            {
-                path: 'productList',
-                element: <ProductList />
-            },
-            // User Routes
-            // {
-            //     path: 'selectedProducts',
-            //     element: <SelectedProducts />
-            // }
         ]
     },
     {
@@ -73,12 +50,31 @@ export const router = createBrowserRouter([
             {
                 path: 'payment',
                 element: <Payment />
+                // element: <UserRoute><Payment /></UserRoute>
+            },
+            // Admin Routes
+            {
+                path: 'manageUsers',
+                element: <AdminRoute><ManageUsers /></AdminRoute>
+            },
+            {
+                path: 'manageProducts',
+                element: <AdminRoute><ManageProducts /></AdminRoute>
             },
             // User Routes
             {
                 path: 'selectedProducts',
-                element: <SelectedProducts />
-            }
+                element: <UserRoute><SelectedProducts /></UserRoute>
+            },
+            // Salesman Routes
+            {
+                path: 'addProducts',
+                element: <SalesmanRoute><AddProducts /></SalesmanRoute>
+            },
+            {
+                path: 'productList',
+                element: <SalesmanRoute><ProductList /></SalesmanRoute>
+            },
         ]
     }
 ]);

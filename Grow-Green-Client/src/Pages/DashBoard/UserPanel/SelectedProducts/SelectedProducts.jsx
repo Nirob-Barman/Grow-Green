@@ -1,15 +1,18 @@
 import axios from "axios";
 import useWishedProducts from "../../../../Hooks/useWishedProducts";
-import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import useSweetAlert from "../../../../Hooks/useSweetAlert";
 
 const SelectedProducts = () => {
+
     const [wishListedProducts, refetch] = useWishedProducts();
 
     const total = wishListedProducts.reduce((sum, item) => sum + parseFloat(item.price), 0);
     // console.log(total);
     const price = total.toFixed(2)
     console.log(price);
+
+    const sweetAlert = useSweetAlert();
 
     const handleDeleteProduct = async (productId) => {
         try {
@@ -26,11 +29,7 @@ const SelectedProducts = () => {
             // setWishListedProducts((prevProducts) => prevProducts.filter((product) => product.productId !== productId));
 
             // Show a success message using SweetAlert2 or other UI components
-            Swal.fire({
-                icon: 'success',
-                title: 'Product Deleted',
-                text: 'The product has been successfully deleted.',
-            });
+            sweetAlert.showDeleteSuccessMessage();
 
         } catch (error) {
             // Handle errors, e.g., display an error message or log the error
@@ -41,10 +40,8 @@ const SelectedProducts = () => {
     return (
         <div className="container mx-auto my-8">
             <h2 className="text-3xl font-bold mb-4">My Selected Products</h2>
+
             <div className="my-2">
-
-
-
                 <Link to='/dashboard/payment'>
                     <button
                         className="px-4 py-2 bg-blue-500 text-white rounded"
@@ -53,7 +50,7 @@ const SelectedProducts = () => {
 
                         }}
                     >
-                        Pay total: {price}
+                        Pay: ${price}
                     </button>
                 </Link>
             </div>

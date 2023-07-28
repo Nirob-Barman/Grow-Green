@@ -95,7 +95,54 @@ async function run() {
             const email = req.params.email;
             const query = { email: email };
             const result = await usersCollection.findOne(query);
-            console.log(result);
+            // console.log(result);
+            res.send(result);
+        });
+
+
+        app.get('/users/admin/:email', async (req, res) => {
+            const email = req.params.email;
+
+            // // token checking
+            // if (req.decoded.email !== email) {
+            //     res.send({ admin: false })
+            // }
+
+            // email in route 
+            const query = { email: email }
+            const user = await usersCollection.findOne(query);
+            const result = { admin: user?.role === 'admin' }
+            res.send(result);
+        })
+
+        app.get('/users/salesman/:email', async (req, res) => {
+            const email = req.params.email;
+
+            // // token checking
+            // if (req.decoded.email !== email) {
+            //     res.send({ salesman: false })
+            // }
+
+            // email in route 
+            const query = { email: email }
+            const user = await usersCollection.findOne(query);
+            const result = { salesman: user?.role === 'salesman' }
+            res.send(result);
+        });
+
+
+        app.get('/users/user/:email', async (req, res) => {
+            const email = req.params.email;
+
+            // // token checking
+            // if (req.decoded.email !== email) {
+            //     res.send({ user: false })
+            // }
+
+            // email in route 
+            const query = { email: email }
+            const user = await usersCollection.findOne(query);
+            const result = { user: !!user } // Return true if the user exists, false otherwise
             res.send(result);
         });
 
@@ -176,7 +223,7 @@ async function run() {
                 const { email } = req.query;
                 // const email = req.query.email;
 
-                console.log("Server Email: ", email);
+                // console.log("Server Email: ", email);
                 const products = await productsCollection.find({ email: email }).toArray();
                 res.json(products);
             } catch (error) {
@@ -274,7 +321,7 @@ async function run() {
             try {
                 const { id } = req.params;
                 const { feedback } = req.body;
-                console.log(feedback);
+                // console.log(feedback);
 
                 if (!ObjectId.isValid(id)) {
                     return res.status(400).json({ error: 'Invalid products ID' });

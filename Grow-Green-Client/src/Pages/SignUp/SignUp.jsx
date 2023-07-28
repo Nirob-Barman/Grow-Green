@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import axios from 'axios';
 import useAuth from '../../Hooks/useAuth';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 import { useState } from 'react';
+import useSweetAlert from '../../Hooks/useSweetAlert';
 
 const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 
@@ -14,6 +14,7 @@ const SignUp = () => {
 
     // Add a state to store the uploaded image URL
     const [imageUrl, setImageUrl] = useState('');
+    const sweetAlert = useSweetAlert();
 
     // Function to handle image upload to ImgBB
     const handleImageUpload = async (e) => {
@@ -81,13 +82,7 @@ const SignUp = () => {
                                     reset();
 
                                     // Confirmation message or alert
-                                    Swal.fire({
-                                        position: 'top-end',
-                                        icon: 'success',
-                                        title: 'User created successfully.',
-                                        showConfirmButton: false,
-                                        timer: 1500,
-                                    });
+                                    sweetAlert.showUserCreatedSuccessAlert();
 
                                     // Navigation to desired page
                                     navigate('/');
@@ -107,7 +102,7 @@ const SignUp = () => {
     };
 
     const password = watch('password');
-    const confirmPassword = watch('confirmPassword');
+    // const confirmPassword = watch('confirmPassword');
 
     return (
         <div>

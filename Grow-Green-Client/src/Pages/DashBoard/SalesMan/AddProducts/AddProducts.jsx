@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import useAuth from '../../../../Hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import useSweetAlert from '../../../../Hooks/useSweetAlert';
 
 const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 
@@ -12,6 +12,8 @@ const AddProducts = () => {
     const [imageUrl, setImageUrl] = useState('');
     const { register, handleSubmit, reset } = useForm();
     const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`
+
+    const sweetAlert = useSweetAlert();
 
     // Assuming you have implemented useAuth() correctly to get user info
     const { user } = useAuth();
@@ -65,36 +67,22 @@ const AddProducts = () => {
 
             if (response.data.message === 'Product created successfully') {
                 // Reset the form after a successful addition
-                // reset();
+                reset();
 
-                // Show the success message using Swal.fire
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Product added successfully.',
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
+                // Show the success message
+                sweetAlert.showSuccessMessage();
 
                 // Navigation to desired page
-                // navigate(from, { replace: true });
+                navigate(from, { replace: true });
             }
         } catch (error) {
             // Handle the error
-            console.error('Failed to add products:', error);
+            // console.error('Failed to add products:', error);
 
-            // Show an error message using Swal.fire
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Failed to add product. Please try again later.',
-            });
+            // Show an error message
+            sweetAlert.showErrorMessage();
         }
     };
-
-
-
-
 
     return (
         <div className="container mx-auto mt-8">
@@ -110,20 +98,6 @@ const AddProducts = () => {
                         className="px-3 py-2 border rounded-md"
                     />
                 </div>
-
-                {/* Add other form fields here */}
-                {/* <div className="flex flex-col">
-                    <label htmlFor="productImage" className="mb-1 font-medium text-gray-700">
-                        Product Image
-                    </label>
-                    <input
-                        type="text"
-                        id="productImage"
-                        {...register('productImage', { required: true })}
-                        className="px-3 py-2 border rounded-md"
-                    />
-                </div> */}
-
 
                 <div className="flex flex-col">
                     <label htmlFor="productImage" className="mb-1 font-medium text-gray-700">
@@ -193,9 +167,15 @@ const AddProducts = () => {
                     </label>
                     <select id="category" {...register('category', { required: true })} className="px-3 py-2 border rounded-md">
                         <option value="">Select a category</option>
-                        <option value="tree">Tree</option>
-                        <option value="decoration">Decoration Items</option>
-                        <option value="fertilizer">Fertilizer</option>
+                        <option value="seeds">Seeds</option>
+                        <option value="soil">Soil and Fertilizer</option>
+                        <option value="seeding-tray">Seeding Tray</option>
+                        <option value="tools-accessories">Tools and Accessories</option>
+                        <option value="pots-containers">Pots and Containers</option>
+                        <option value="stones-pebbles">Stones and Pebbles</option>
+                        <option value="sprinkler-irrigation">Sprinkler and Irrigation</option>
+                        <option value="indoor-plants">Indoor/Decorative Plants</option>
+                        <option value="packaging-materials">Packaging Materials</option>
                     </select>
                 </div>
 

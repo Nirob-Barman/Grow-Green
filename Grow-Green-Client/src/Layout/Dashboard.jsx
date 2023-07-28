@@ -1,5 +1,5 @@
-import useAuth from '../../Hooks/useAuth';
 import { Link, Outlet } from 'react-router-dom';
+import useAuth from '../Hooks/useAuth';
 
 const Dashboard = () => {
 
