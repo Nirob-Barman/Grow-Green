@@ -14,7 +14,7 @@ const useSalesman = () => {
         queryFn: async () => {
             if (user?.email) {
                 try {
-                    const res = await axios.get(`http://localhost:5000/users/salesman/${user.email}`);
+                    const res = await axios.get(`https://grow-green-server.vercel.app/users/salesman/${user.email}`);
                     console.log('is salesman response', res)
                     return res.data.salesman;
                 } catch (error) {

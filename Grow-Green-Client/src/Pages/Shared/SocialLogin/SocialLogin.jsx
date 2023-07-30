@@ -19,7 +19,7 @@ const SocialLogin = () => {
                 // navigate(from, { replace: true });
 
                 const saveUser = { name: loggedInUser.displayName, email: loggedInUser.email, photoURL: loggedInUser.photoURL, phoneNumber: loggedInUser?.phoneNumber, role: "user" }
-                fetch('http://localhost:5000/users', {
+                fetch('https://grow-green-server.vercel.app/users', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'

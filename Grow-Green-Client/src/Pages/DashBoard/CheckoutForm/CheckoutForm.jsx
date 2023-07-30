@@ -3,7 +3,7 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import useAuth from '../../../Hooks/useAuth';
-// import './CheckoutForm.css';
+import './CheckoutForm.css';
 
 const CheckoutForm = ({ wishListedProducts, price }) => {
     const stripe = useStripe();
@@ -14,11 +14,12 @@ const CheckoutForm = ({ wishListedProducts, price }) => {
     const [clientSecret, setClientSecret] = useState('');
     const [processing, setProcessing] = useState(false);
     const [transactionId, setTransactionId] = useState('');
+    const [paymentCompleted, setPaymentCompleted] = useState(false);
 
     useEffect(() => {
         // console.log(price);
         if (price > 0) {
-            axios.post('http://localhost:5000/create-payment-intent', { price })
+            axios.post('https://grow-green-server.vercel.app/create-payment-intent', { price })
                 .then(res => {
                     // console.log(res.data.clientSecret);
                     setClientSecret(res.data.clientSecret);
@@ -87,6 +88,7 @@ const CheckoutForm = ({ wishListedProducts, price }) => {
 
         if (paymentIntent.status === 'succeeded') {
             setTransactionId(paymentIntent.id);
+            setPaymentCompleted(true);
             // save payment information to the server
             const payment = {
                 email: user?.email,
@@ -100,7 +102,7 @@ const CheckoutForm = ({ wishListedProducts, price }) => {
             }
             console.log('Success:', payment);
 
-            axios.post('http://localhost:5000/payments', payment)
+            axios.post('https://grow-green-server.vercel.app/payments', payment)
                 .then(res => {
                     console.log('Payment', res.data);
                     // if (res.data.result.insertedId) {
@@ -115,8 +117,34 @@ const CheckoutForm = ({ wishListedProducts, price }) => {
     }
 
     return (
+        // <>
+        //     <form className="w-2/3 m-8" onSubmit={handleSubmit}>
+        //         <CardElement
+        //             options={{
+        //                 style: {
+        //                     base: {
+        //                         fontSize: '16px',
+        //                         color: '#424770',
+        //                         '::placeholder': {
+        //                             color: '#aab7c4',
+        //                         },
+        //                     },
+        //                     invalid: {
+        //                         color: '#9e2146',
+        //                     },
+        //                 },
+        //             }}
+        //         />
+        //         {/* <button className="btn btn-primary btn-sm mt-4" type="submit" disabled={!stripe}> */}
+        //         <button className="btn btn-primary btn-sm mt-4" type="submit" disabled={!stripe || !clientSecret || processing}>
+        //             Pay
+        //         </button>
+        //     </form>
+        //     {cardError && <p className="text-red-600 ml-8">{cardError}</p>}
+        //     {transactionId && <p className="text-green-500">Transaction complete with transactionId: {transactionId}</p>}
+        // </>
         <>
-            <form className="w-2/3 m-8" onSubmit={handleSubmit}>
+            <form className="mx-auto md:w-3/4 lg:w-2/3 xl:w-1/2 p-4" onSubmit={handleSubmit}>
                 <CardElement
                     options={{
                         style: {
@@ -132,14 +160,23 @@ const CheckoutForm = ({ wishListedProducts, price }) => {
                             },
                         },
                     }}
+                    className="p-4 border border-gray-300 rounded-md"
                 />
-                {/* <button className="btn btn-primary btn-sm mt-4" type="submit" disabled={!stripe}> */}
-                <button className="btn btn-primary btn-sm mt-4" type="submit" disabled={!stripe || !clientSecret || processing}>
-                    Pay
+                <button
+                    // className="btn btn-primary btn-sm mt-4"
+                    className={`btn btn-primary btn-sm mt-4 ${paymentCompleted ? 'bg-green-600' : ''}`}
+                    type="submit"
+                    disabled={!stripe || !clientSecret || processing || paymentCompleted}
+                >
+                    {paymentCompleted ? 'Paid' : 'Pay'}
                 </button>
             </form>
-            {cardError && <p className="text-red-600 ml-8">{cardError}</p>}
-            {transactionId && <p className="text-green-500">Transaction complete with transactionId: {transactionId}</p>}
+            {cardError && <p className="text-red-600 mx-auto mt-4">{cardError}</p>}
+            {transactionId && (
+                <p className="text-green-500 mx-auto mt-4">
+                    Transaction complete with transactionId: {transactionId}
+                </p>
+            )}
         </>
     );
 };

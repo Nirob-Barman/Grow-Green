@@ -2,14 +2,15 @@ import useAuth from './useAuth';
 import { useQuery } from '@tanstack/react-query';
 
 const useWishedProducts = () => {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
 
     // console.log("Client Email from wishListedProducts: ", user?.email);
 
     const { refetch, data: wishListedProducts = [] } = useQuery({
         queryKey: ['wishListedProducts', user?.email],
+        enabled: !loading,
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/selectedProducts/${user?.email}`)
+            const res = await fetch(`https://grow-green-server.vercel.app/selectedProducts/${user?.email}`)
             return res.json();
         },
     })

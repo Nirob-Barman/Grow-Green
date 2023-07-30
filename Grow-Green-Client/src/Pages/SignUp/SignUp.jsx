@@ -74,7 +74,7 @@ const SignUp = () => {
                         };
 
                         axios
-                            .post('http://localhost:5000/users', saveUser)
+                            .post('https://grow-green-server.vercel.app/users', saveUser)
                             .then((response) => {
                                 const data = response.data;
                                 console.log('Axios post submit data', data); // Perform sign up logic or submit form data
@@ -105,7 +105,7 @@ const SignUp = () => {
     // const confirmPassword = watch('confirmPassword');
 
     return (
-        <div>
+        <div className='pt-20'>
             <div className="container mx-auto mt-8">
                 <div className='text-center'>
                     <h1 className="text-3xl font-semibold mb-4">Sign Up</h1>

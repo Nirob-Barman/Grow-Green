@@ -11,7 +11,7 @@ const useBookingProducts = () => {
         queryKey: ['bookingProducts', user?.email],
         enabled: !loading,
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/selectedProducts?email=${user.email}`)
+            const res = await fetch(`https://grow-green-server.vercel.app/selectedProducts?email=${user.email}`)
             return res.json();
         },
     })

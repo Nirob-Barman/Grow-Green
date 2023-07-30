@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
-import axios from "axios";
 import { app } from "../Firebase/firebase.config";
 import { getRole } from "../Api/auth";
 
@@ -59,7 +58,7 @@ const AuthProvider = ({ children }) => {
 
     //         // get and set token
     //         // if (currentUser) {
-    //         //     axios.post('http://localhost:5000/jwt', { email: currentUser.email })
+    //         //     axios.post('https://grow-green-server.vercel.app/jwt', { email: currentUser.email })
     //         //         .then(data => {
     //         //             // console.log(data);
     //         //             // console.log(data.data);

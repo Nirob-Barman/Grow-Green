@@ -6,8 +6,12 @@ require('dotenv').config()
 const stripe = require('stripe')(process.env.PAYMENT_SECRET_KEY)
 const port = process.env.PORT || 5000;
 
-
 // middleware
+const corsOptions = {
+    origin: "*",
+    credentials: true,
+    optionSuccessStatus: 200,
+};
 app.use(cors());
 app.use(express.json());
 
@@ -44,29 +48,21 @@ const client = new MongoClient(uri, {
 });
 
 
-
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
 
 
-
         const usersCollection = client.db("growGreen").collection("users");
         const productsCollection = client.db("growGreen").collection("products");
+        const reviewCollection = client.db("growGreen").collection("reviews");
         const bookingProductsCollection = client.db("growGreen").collection("bookings");
         const paymentCollection = client.db("growGreen").collection("payments");
 
 
 
-
-
-
-
-
-
-
-
+        
 
 
 
@@ -76,7 +72,6 @@ async function run() {
 
             res.send({ token })
         })
-
 
 
 
@@ -97,6 +92,22 @@ async function run() {
             const result = await usersCollection.findOne(query);
             // console.log(result);
             res.send(result);
+        });
+
+        app.delete('/users/:id', async (req, res) => {
+            const id = req.params.id;
+
+            try {
+                const result = await usersCollection.deleteOne({ _id: new ObjectId(id) });
+                if (result.deletedCount === 1) {
+                    res.status(200).json({ message: 'User deleted successfully' });
+                } else {
+                    res.status(404).json({ message: 'User not found' });
+                }
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                res.status(500).json({ message: 'Internal server error' });
+            }
         });
 
 
@@ -345,9 +356,53 @@ async function run() {
         });
 
 
+        // review related apis
+        // GET all reviews
+        app.get("/reviews", async (req, res) => {
+            try {
+                const reviews = await reviewCollection.find().toArray();
+                res.json(reviews);
+            } catch (error) {
+                res.status(500).json({ error: "Error fetching reviews" });
+            }
+        });
 
+        // // POST a new review
+        app.post("/reviews", async (req, res) => {
+            const { name, details, rating } = req.body;
+            if (!name || !details || !rating) {
+                return res.status(400).json({ error: "All fields are required" });
+            }
+            const newReview = { name, details, rating, };
+            try {
+                const result = await reviewCollection.insertOne(newReview);
+                res.json(result.ops[0]);
+            } catch (error) {
+                res.status(500).json({ error: "Error adding review" });
+            }
+        });
 
+        
+        // Delete a review
+        app.delete("/reviews/:id", async (req, res) => {
+            try {
+                const id = req.params.id;
+                const query = { _id: new ObjectId(id) };
 
+                // Validate that the reviewId is a valid MongoDB ObjectId
+                if (!ObjectId.isValid(reviewId)) {
+                    return res.status(400).json({ error: "Invalid review ID" });
+                }
+
+                // Assuming you have already established a MongoDB connection and have the reviewCollection reference
+                // Remove the review from the database using the reviewId
+                const result = await reviewCollection.deleteOne(query);
+                res.status(200).json({ message: "Review deleted successfully" });
+            } catch (error) {
+                console.error("Error while removing the review:", error);
+                res.status(500).json({ error: "Internal server error" });
+            }
+        });
 
 
 
@@ -375,7 +430,7 @@ async function run() {
 
         app.get('/selectedProducts/:email', async (req, res) => {
             try {
-                const userEmail = req.query.email; // Get the user's email from the query parameter
+                const userEmail = req.query.email;
 
                 const email = req.params.email;
                 const query = { bookingEmail: email };

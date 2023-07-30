@@ -21,18 +21,27 @@ const Dashboard = () => {
                 </Link>
             </li>
             <li>
-                <Link to="/dashboard" className="text-blue-500 hover:text-blue-600">
+                <Link to="/dashboard/information" className="text-blue-500 hover:text-blue-600">
                     Dashboard
                 </Link>
             </li>
 
+
+
             {
                 userRole === 'admin' ? <>
+                    <li>
+                        <Link to="/dashboard/users" className="text-blue-500 hover:text-blue-600">
+                            Users
+                        </Link>
+                    </li>
+
                     <li>
                         <Link to="/dashboard/manageUsers" className="text-blue-500 hover:text-blue-600">
                             Manage Users
                         </Link>
                     </li>
+
                     <li>
                         <Link to="/dashboard/manageProducts" className="text-blue-500 hover:text-blue-600">
                             Manage Products
@@ -53,7 +62,7 @@ const Dashboard = () => {
                     </> : <>
                         <li>
                             <Link to="/dashboard/selectedProducts" className="text-blue-500 hover:text-blue-600">
-                                WishListed Product
+                                Cart
                             </Link>
                         </li>
                         <li>
@@ -96,6 +105,9 @@ const Dashboard = () => {
             <div className='text-center'>
                 <Outlet></Outlet>
             </div>
+
+
+
         </div>
     );
 };

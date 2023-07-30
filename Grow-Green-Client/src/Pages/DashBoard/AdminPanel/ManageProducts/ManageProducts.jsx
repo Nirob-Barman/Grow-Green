@@ -14,7 +14,7 @@ const ManageProducts = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/products');
+            const response = await axios.get('https://grow-green-server.vercel.app/products');
             setProducts(response.data);
         } catch (error) {
             console.error(error);
@@ -25,7 +25,7 @@ const ManageProducts = () => {
     const handleApproval = async (classId, status) => {
         try {
             // Make a PATCH request to update the class status on the server
-            const response = await axios.patch(`http://localhost:5000/products/${classId}`, { status });
+            const response = await axios.patch(`https://grow-green-server.vercel.app/products/${classId}`, { status });
 
             // Update the class status on the client-side after successful server update
             const updatedClasses = products.map(product =>
@@ -57,7 +57,7 @@ const ManageProducts = () => {
             console.log('Feedback:', feedback);
 
             // Send the feedback to the server using a POST request for the current class ID
-            const response = await axios.post(`http://localhost:5000/products/${currentClassId}/feedback`, { feedback });
+            const response = await axios.post(`https://grow-green-server.vercel.app/products/${currentClassId}/feedback`, { feedback });
 
             // Update the class feedback on the client-side after successful server update
             const updatedClasses = products.map(product =>

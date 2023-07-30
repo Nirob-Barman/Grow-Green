@@ -12,7 +12,7 @@ const useUser = () => {
         queryFn: async () => {
             if (user?.email) {
                 try {
-                    const res = await axios.get(`http://localhost:5000/users/user/${user.email}`);
+                    const res = await axios.get(`https://grow-green-server.vercel.app/users/user/${user.email}`);
                     // console.log('is user response', res)
                     return res.data.user;
                 } catch (error) {

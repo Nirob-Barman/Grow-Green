@@ -62,7 +62,7 @@ const AddProducts = () => {
             formData.email = user?.email;
 
             // Send the form data to the server using Axios
-            const response = await axios.post('http://localhost:5000/products', formData);
+            const response = await axios.post('https://grow-green-server.vercel.app/products', formData);
             console.log('Axios post submit data', response.data);
 
             if (response.data.message === 'Product created successfully') {
@@ -168,7 +168,7 @@ const AddProducts = () => {
                     <select id="category" {...register('category', { required: true })} className="px-3 py-2 border rounded-md">
                         <option value="">Select a category</option>
                         <option value="seeds">Seeds</option>
-                        <option value="soil">Soil and Fertilizer</option>
+                        <option value="soil-fertilizer">Soil and Fertilizer</option>
                         <option value="seeding-tray">Seeding Tray</option>
                         <option value="tools-accessories">Tools and Accessories</option>
                         <option value="pots-containers">Pots and Containers</option>

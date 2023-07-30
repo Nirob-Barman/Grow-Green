@@ -1,9 +1,15 @@
-
+import Banner from "../Banner/Banner";
+import Category from "../Category/Category";
+import PopularIProduct from "../PopularIProduct/PopularIProduct";
+import Testimonials from "../Testimonials/Testimonials";
 
 const Home = () => {
     return (
         <div>
-            Home Content
+            <Banner />
+            <Category />
+            <PopularIProduct />
+            <Testimonials />
         </div>
     );
 };

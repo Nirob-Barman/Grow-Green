@@ -11,7 +11,7 @@ const ManageUsers = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/users');
+            const response = await axios.get('https://grow-green-server.vercel.app/users');
             setUsers(response.data);
         } catch (error) {
             console.error(error);
@@ -21,7 +21,7 @@ const ManageUsers = () => {
     const updateUserRole = async (userId, newRole) => {
         try {
             // Make a PATCH request to update the user's role on the server
-            const response = await axios.patch(`http://localhost:5000/users/${userId}`, { role: newRole });
+            const response = await axios.patch(`https://grow-green-server.vercel.app/users/${userId}`, { role: newRole });
 
             // Update the user's role on the client-side after successful server update
             const updatedUsers = users.map(user =>

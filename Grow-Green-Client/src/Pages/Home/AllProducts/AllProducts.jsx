@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import useAuth from '../../../Hooks/useAuth';
 import useSweetAlert from '../../../Hooks/useSweetAlert';
+import useWishedProducts from '../../../Hooks/useWishedProducts';
 
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
@@ -10,6 +11,7 @@ const AllProducts = () => {
     console.log(user);
 
     const [selectedProducts, setSelectedProducts] = useState([]);
+    const [, refetch] = useWishedProducts();
     const sweetAlert = useSweetAlert();
 
     const handlePurchase = () => {
@@ -48,7 +50,7 @@ const AllProducts = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/products');
+            const response = await axios.get('https://grow-green-server.vercel.app/products');
             setProducts(response.data.filter((productData) => productData.status === 'approved'));
         } catch (error) {
             console.error(error);
@@ -58,12 +60,17 @@ const AllProducts = () => {
     const fetchSelectedProducts = async () => {
         try {
             // Fetch selected products for the current user
-            const response = await axios.get(`http://localhost:5000/selectedProducts/${user.email}`);
+            const response = await axios.get(`https://grow-green-server.vercel.app/selectedProducts/${user.email}`);
             setSelectedProducts(response.data.map((selectedProducts) => selectedProducts.productId));
         } catch (error) {
             console.error(error);
         }
     };
+
+
+
+
+
 
     const handleSelectedProducts = async (productId, productItem) => {
         // console.log('selecting start',productId, productItem);
@@ -81,7 +88,7 @@ const AllProducts = () => {
                 const { _id, productName, productImage, availableProducts, price, category, status, displayName, email } = productItem;
 
                 // Send the _id field as the product id
-                await axios.post('http://localhost:5000/selectedProducts/', {
+                await axios.post('https://grow-green-server.vercel.app/selectedProducts/', {
                     productId: _id, // Sending _id as productId
                     productName,
                     productImage,
@@ -103,6 +110,7 @@ const AllProducts = () => {
 
             // Show success message using SweetAlert2
             sweetAlert.showProductSelectedAlert();
+            refetch();
 
             // console.log('Class selected:', classId);
             console.log('Class:', productItem);
@@ -117,15 +125,17 @@ const AllProducts = () => {
         }
     };
 
+
+
     return (
-        <div>
+        <div className='pt-20'>
             <div className="container mx-auto mt-8">
-                <h2 className="text-3xl font-semibold mb-4">products Page</h2>
+                {/* <h2 className="text-3xl font-semibold mb-4">products Page</h2> */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     {products.map((productData) => (
                         <div
                             key={productData._id}
-                            className={`bg-white p-4 rounded-lg ${productData.availableSeats === '0' ? 'bg-red-200' : ''
+                            className={`bg-white p-4 rounded-lg ${productData.availableProducts === '0' ? 'bg-red-200' : ''
                                 }`}
                         >
                             <img
@@ -140,7 +150,7 @@ const AllProducts = () => {
 
 
                             {user ? (
-                                userRole === 'user' && productData.availableSeats !== '0' ? (
+                                userRole === 'user' && productData.availableProducts !== '0' ? (
                                     <button
                                         onClick={() => handleSelectedProducts(productData._id, productData)}
                                         className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full disabled:opacity-50"
@@ -149,7 +159,7 @@ const AllProducts = () => {
                                     </button>
                                 ) : (
                                     <p className="text-red-500">
-                                        {productData.availableSeats === '0' ? 'No available seats' : ''}
+                                        {productData.availableProducts === '0' ? 'No available seats' : ''}
                                     </p>
                                 )
                             ) : (
