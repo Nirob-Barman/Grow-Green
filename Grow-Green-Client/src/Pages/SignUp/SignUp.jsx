@@ -5,6 +5,7 @@ import useAuth from '../../Hooks/useAuth';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 import { useState } from 'react';
 import useSweetAlert from '../../Hooks/useSweetAlert';
+import { Helmet } from 'react-helmet-async';
 
 const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 
@@ -106,6 +107,9 @@ const SignUp = () => {
 
     return (
         <div className='pt-20'>
+            <Helmet>
+                <title>Grow Green | Register</title>
+            </Helmet>
             <div className="container mx-auto mt-8">
                 <div className='text-center'>
                     <h1 className="text-3xl font-semibold mb-4">Sign Up</h1>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Helmet } from 'react-helmet-async';
 
 const ManageUsers = () => {
     const [users, setUsers] = useState([]);
@@ -35,6 +36,9 @@ const ManageUsers = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Manage Users</title>
+            </Helmet>
             <h2 className="text-2xl font-semibold mb-4">Manage Users</h2>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {users.map(user => (

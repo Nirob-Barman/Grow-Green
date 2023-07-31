@@ -51,7 +51,7 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        // await client.connect();
 
 
         const usersCollection = client.db("growGreen").collection("users");
@@ -62,7 +62,7 @@ async function run() {
 
 
 
-        
+
 
 
 
@@ -382,27 +382,27 @@ async function run() {
             }
         });
 
-        
+
         // Delete a review
-        app.delete("/reviews/:id", async (req, res) => {
+
+        app.delete('/reviews/:id', async (req, res) => {
             try {
-                const id = req.params.id;
+                const { id } = req.params;
+
                 const query = { _id: new ObjectId(id) };
 
-                // Validate that the reviewId is a valid MongoDB ObjectId
-                if (!ObjectId.isValid(reviewId)) {
-                    return res.status(400).json({ error: "Invalid review ID" });
-                }
-
-                // Assuming you have already established a MongoDB connection and have the reviewCollection reference
-                // Remove the review from the database using the reviewId
                 const result = await reviewCollection.deleteOne(query);
-                res.status(200).json({ message: "Review deleted successfully" });
+
+                if (result.deletedCount === 1) {
+                    res.json({ message: 'Review deleted successfully' });
+                } else {
+                    res.status(404).json({ message: 'Review not found' });
+                }
             } catch (error) {
-                console.error("Error while removing the review:", error);
-                res.status(500).json({ error: "Internal server error" });
+                res.status(500).json({ message: 'Error deleting review', error });
             }
         });
+
 
 
 
@@ -491,6 +491,17 @@ async function run() {
 
         // payment related api
 
+
+        app.get('/payments', async (req, res) => {
+            try {
+                const payments = await paymentCollection.find({}).toArray();
+                res.send(payments);
+            } catch (error) {
+                console.error('Error fetching payments:', error);
+                res.status(500).send('Error fetching payments');
+            }
+        });
+
         app.post('/payments', async (req, res) => {
             const payment = req.body;
             const insertResult = await paymentCollection.insertOne(payment);
@@ -502,7 +513,73 @@ async function run() {
         })
 
 
+        app.get('/admin-stats', async (req, res) => {
+            const users = await usersCollection.estimatedDocumentCount();
+            const products = await productsCollection.estimatedDocumentCount();
+            const orders = await paymentCollection.estimatedDocumentCount();
 
+            // best way to get sum of the price field is to use group and sum operator
+            /*
+              await paymentCollection.aggregate([
+                {
+                  $group: {
+                    _id: null,
+                    total: { $sum: '$price' }
+                  }
+                }
+              ]).toArray()
+            */
+
+            const payments = await paymentCollection.find().toArray();
+            const revenue = payments.reduce((sum, payment) => sum + payment.price, 0)
+
+            res.send({
+                revenue,
+                users,
+                products,
+                orders
+            })
+        })
+
+        app.get('/order-stats', async (req, res) => {
+            try {
+                const pipeline = [
+                    {
+                        $lookup: {
+                            from: 'products',
+                            localField: 'productItems',
+                            foreignField: '_id',
+                            as: 'productItemsData'
+                        }
+                    },
+                    {
+                        $unwind: '$productItemsData'
+                    },
+                    {
+                        $group: {
+                            _id: '$productItemsData.category',
+                            count: { $sum: 1 },
+                            total: { $sum: '$productItemsData.price' }
+                        }
+                    },
+                    {
+                        $project: {
+                            category: '$_id',
+                            count: 1,
+                            total: { $round: ['$total', 2] },
+                            _id: 0
+                        }
+                    }
+                ];
+
+                const result = await paymentCollection.aggregate(pipeline).toArray();
+                res.send(result);
+            }
+            catch (error) {
+                console.error("Error in /order-stats endpoint:", error);
+                res.status(500).send("An error occurred while fetching order statistics.");
+            }
+        });
 
 
 

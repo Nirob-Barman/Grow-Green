@@ -1,5 +1,5 @@
 // UpdateRole.js
-import React, { useState } from 'react';
+import  { useState } from 'react';
 
 const UpdateRole = () => {
     const [newRole, setNewRole] = useState('');

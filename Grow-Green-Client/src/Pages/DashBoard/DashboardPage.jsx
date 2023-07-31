@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import useAuth from '../../Hooks/useAuth';
 import { Link } from 'react-router-dom';
 
@@ -12,6 +13,9 @@ const DashboardPage = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Dashboard</title>
+            </Helmet>
             <div>
                 <div className="container mx-auto p-4">
                     <div className="flex flex-col md:flex-row">
@@ -32,7 +36,7 @@ const DashboardPage = () => {
                                             <Link to="/dashboard/users" className="text-blue-500 hover:text-blue-600">Users</Link>
                                         </li>
                                         <li>
-                                            <Link className="text-blue-500 hover:text-blue-600">Analytics and Reports</Link>
+                                            <Link to='/dashboard/reports' className="text-blue-500 hover:text-blue-600">Analytics and Reports</Link>
                                         </li>
                                         <li>
                                             <Link className="text-blue-500 hover:text-blue-600">Offers and Promotions</Link>
@@ -82,16 +86,16 @@ const DashboardPage = () => {
                                             <Link className="text-blue-500 hover:text-blue-600">Home</Link>
                                         </li>
                                         <li>
-                                            <Link className="text-blue-500 hover:text-blue-600">Cart</Link>
+                                            <Link to="/dashboard/selectedProducts" className="text-blue-500 hover:text-blue-600">Cart</Link>
                                         </li>
                                         <li>
-                                            <Link className="text-blue-500 hover:text-blue-600">Checkout</Link>
+                                            <Link to="/dashboard/payment" className="text-blue-500 hover:text-blue-600">Checkout</Link>
                                         </li>
                                         <li>
                                             <Link className="text-blue-500 hover:text-blue-600">Order History</Link>
                                         </li>
                                         <li>
-                                            <Link className="text-blue-500 hover:text-blue-600">My Account</Link>
+                                            <Link to="/dashboard/information" className="text-blue-500 hover:text-blue-600">My Account</Link>
                                         </li>
                                         <li>
                                             <Link onClick={handleLogOut} className="text-blue-500 hover:text-blue-600">Logout</Link>

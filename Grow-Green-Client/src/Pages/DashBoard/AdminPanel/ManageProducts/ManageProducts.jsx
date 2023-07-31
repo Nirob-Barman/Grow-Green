@@ -3,6 +3,7 @@ import axios from 'axios';
 
 // Import the daisyUI classes for the modal component
 import 'daisyui/dist/full.css';
+import { Helmet } from 'react-helmet-async';
 
 const ManageProducts = () => {
     const [products, setProducts] = useState([]);
@@ -76,6 +77,9 @@ const ManageProducts = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Manage Products</title>
+            </Helmet>
             <h2 className="text-2xl font-semibold mb-4">Manage Products</h2>
             <div className="overflow-x-auto">
                 <table className="min-w-full">

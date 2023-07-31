@@ -19,7 +19,6 @@ const AllReviews = () => {
         try {
             await axios.post("https://grow-green-server.vercel.app/reviews", data);
             // console.log("Review submitted successfully:", data);
-            reset();
         } catch (error) {
             console.error("Error submitting review:", error);
             if (error.response) {
@@ -29,6 +28,7 @@ const AllReviews = () => {
             }
         }
         refetch();
+        reset();
     };
 
 
@@ -38,10 +38,11 @@ const AllReviews = () => {
         try {
             await axios.delete(`https://grow-green-server.vercel.app/reviews/${reviewId}`);
             // console.log("Review removed successfully:", reviewId);
-            refetch(); // Fetch reviews again to update the UI after removal
+
         } catch (error) {
             console.error("Error removing review:", error);
         }
+        refetch(); // Fetch reviews again to update the UI after removal
     };
 
 

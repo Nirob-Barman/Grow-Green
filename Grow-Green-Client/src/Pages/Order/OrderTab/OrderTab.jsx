@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAuth from '../../../Hooks/useAuth';
 import useSweetAlert from '../../../Hooks/useSweetAlert';
 import axios from 'axios';
@@ -12,7 +12,6 @@ const OrderTab = ({ items }) => {
 
     const sweetAlert = useSweetAlert();
     const { user, userRole } = useAuth();
-
 
     useEffect(() => {
         // Fetch selected products for the current user (if logged in)
@@ -32,23 +31,14 @@ const OrderTab = ({ items }) => {
         }
     };
 
-
     const handlePurchase = () => {
         if (user) {
             // Handle the product selection logic if the user is logged in
-            // handleSelectedProducts(productId, productItem);
         } else {
-            // Show a SweetAlert confirmation before navigating to the login page
             sweetAlert.showLoginConfirmationAlert(
                 () => {
-                    // The function to be executed when the user clicks "Go to Login"
-                    // This will navigate the user to the login page
-                    // console.log('Navigating to login page...');
                 },
                 () => {
-                    // The function to be executed when the user clicks "Cancel"
-                    // This will go back to the previous page
-                    // console.log('Going back to the previous page...');
                     window.history.back();
                 }
             );
@@ -57,7 +47,6 @@ const OrderTab = ({ items }) => {
 
 
     const handleSelectedProducts = async (productId, productItem) => {
-        // console.log('selecting start',productId, productItem);
 
         try {
             // Check if the class is already selected by the current user
@@ -66,14 +55,11 @@ const OrderTab = ({ items }) => {
                 return; // Exit the function if already selected
             }
 
-            // Send the productItem data to the server
             try {
-                // Assuming productItem is an object containing the product details
                 const { _id, productName, productImage, availableProducts, price, category, status, displayName, email } = productItem;
 
-                // Send the _id field as the product id
                 await axios.post('https://grow-green-server.vercel.app/selectedProducts/', {
-                    productId: _id, // Sending _id as productId
+                    productId: _id,
                     productName,
                     productImage,
                     supplierEmail: email,
@@ -86,25 +72,14 @@ const OrderTab = ({ items }) => {
                     bookingUser: user?.displayName,
                     payStatus: 'unpaid',
                 });
-
-                // If the request is successful, handle the response or any other necessary actions
             } catch (error) {
                 // Handle errors, e.g., display an error message or log the error
             }
-
-            // Show success message using SweetAlert2
             sweetAlert.showProductSelectedAlert();
             refetch();
-            // console.log('Class selected:', classId);
-            // console.log('Class:', productItem);
-
-            // Update the selected products state for the current user
             setSelectedProducts((prevSelectedProducts) => [...prevSelectedProducts, productId]);
-
-            // Optionally, you can perform any additional actions after the data is successfully sent
         } catch (error) {
             console.error('Error selecting class:', error);
-            // Handle error, if any
         }
     };
 

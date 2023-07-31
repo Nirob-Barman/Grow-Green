@@ -2,6 +2,7 @@ import axios from 'axios';
 import { FaTrashAlt } from "react-icons/fa";
 import useFetchUsers from '../../../../Hooks/useFetchUsers';
 import useSweetAlert from '../../../../Hooks/useSweetAlert';
+import { Helmet } from 'react-helmet-async';
 
 const AllUsers = () => {
 
@@ -31,7 +32,9 @@ const AllUsers = () => {
     return (
         <div>
             <div className="w-full">
-
+                <Helmet>
+                    <title>Dashboard | Users</title>
+                </Helmet>
                 <h3 className="text-3xl font-semibold my-4">Total Users: {users.length}</h3>
 
                 <div className="overflow-x-auto">

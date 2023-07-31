@@ -1,13 +1,13 @@
-import React from 'react';
 import ProductItem from '../ProductItem/ProductItem';
 import { Link } from 'react-router-dom';
 import Cover from '../../Shared/Cover/Cover';
 
-const ProductCategory = ({ items, title, img }) => {
+const ProductCategory = ({ items, title, img, description }) => {
     return (
         <div>
+
             <div className='pt-8'>
-                {title && img && <Cover img={img} title={title}></Cover>}
+                {title && img && <Cover img={img} title={title} description={description}></Cover>}
 
                 {
                     title === 'offered' && <>
@@ -27,9 +27,12 @@ const ProductCategory = ({ items, title, img }) => {
                     }
                 </div>
 
-                <Link to={`/order/${title}`}>
-                    <button className="btn btn-outline border-0 border-b-4 mt-4">Order Now</button>
-                </Link>
+                <div className='text-center'>
+                    <Link to={`/order/${title}`}>
+                        <button className="btn btn-outline border-0 border-b-4 mt-4">Order Now</button>
+                    </Link>
+                </div>
+
             </div>
         </div>
     );

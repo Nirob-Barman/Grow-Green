@@ -65,11 +65,11 @@ const Dashboard = () => {
                                 Cart
                             </Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link to="/dashboard/bookingProducts" className="text-blue-500 hover:text-blue-600">
                                 Paid Product
                             </Link>
-                        </li>
+                        </li> */}
                     </>
             }
 

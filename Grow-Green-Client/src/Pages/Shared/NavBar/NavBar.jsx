@@ -17,19 +17,14 @@ const NavBar = () => {
     const navOptions = (
         <ul className="flex items-center">
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/products">Products</Link></li>
-            <li><Link to="/allProducts">All Products</Link></li>
+            <li><Link to="/products">Order</Link></li>
             <li><Link to="/services">Services</Link></li>
+            <li><Link to="/allProducts">All Products</Link></li>
 
 
             {
                 user ? <div className='flex items-center'>
-                    <li><Link to="/order/seeds">Order Product</Link></li>
-                    <li
-                        onClick={handleLogOut}
-                    ><Link to="/order/seeds">LogOut</Link></li>
-
-
+                    {/* <li><Link to="/order/seeds">Order Product</Link></li> */}
                     {
                         userRole === 'user' && <li>
                             <FaShoppingCart></FaShoppingCart>
@@ -45,16 +40,12 @@ const NavBar = () => {
                                 </button>
                             </Link></li>
                     }
-
-
                     {/* <button onClick={handleLogOut} className="btn btn-ghost">LogOut</button> */}
-
                 </div> : <li><Link to="/login">Login</Link></li>
             }
-
+            <li onClick={handleLogOut}><Link>LogOut</Link></li>
         </ul>
     );
-
 
     return (
         <div>

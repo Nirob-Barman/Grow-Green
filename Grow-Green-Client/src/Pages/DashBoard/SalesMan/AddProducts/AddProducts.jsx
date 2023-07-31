@@ -4,11 +4,11 @@ import axios from 'axios';
 import useAuth from '../../../../Hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useSweetAlert from '../../../../Hooks/useSweetAlert';
+import { Helmet } from 'react-helmet-async';
 
 const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 
 const AddProducts = () => {
-
     const [imageUrl, setImageUrl] = useState('');
     const { register, handleSubmit, reset } = useForm();
     const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`
@@ -86,6 +86,11 @@ const AddProducts = () => {
 
     return (
         <div className="container mx-auto mt-8">
+
+            <Helmet>
+                <title>Add Product</title>
+            </Helmet>
+
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div className="flex flex-col">
                     <label htmlFor="productName" className="mb-1 font-medium text-gray-700">

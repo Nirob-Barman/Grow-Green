@@ -97,6 +97,7 @@ const CheckoutForm = ({ wishListedProducts, price }) => {
                 date: new Date(),
                 quantity: wishListedProducts.length,
                 cartItems: wishListedProducts.map(item => item._id),
+                productItems: wishListedProducts.map(item => item.productId),
                 status: 'service pending',
                 itemNames: wishListedProducts.map(item => item.productName)
             }
@@ -117,32 +118,6 @@ const CheckoutForm = ({ wishListedProducts, price }) => {
     }
 
     return (
-        // <>
-        //     <form className="w-2/3 m-8" onSubmit={handleSubmit}>
-        //         <CardElement
-        //             options={{
-        //                 style: {
-        //                     base: {
-        //                         fontSize: '16px',
-        //                         color: '#424770',
-        //                         '::placeholder': {
-        //                             color: '#aab7c4',
-        //                         },
-        //                     },
-        //                     invalid: {
-        //                         color: '#9e2146',
-        //                     },
-        //                 },
-        //             }}
-        //         />
-        //         {/* <button className="btn btn-primary btn-sm mt-4" type="submit" disabled={!stripe}> */}
-        //         <button className="btn btn-primary btn-sm mt-4" type="submit" disabled={!stripe || !clientSecret || processing}>
-        //             Pay
-        //         </button>
-        //     </form>
-        //     {cardError && <p className="text-red-600 ml-8">{cardError}</p>}
-        //     {transactionId && <p className="text-green-500">Transaction complete with transactionId: {transactionId}</p>}
-        // </>
         <>
             <form className="mx-auto md:w-3/4 lg:w-2/3 xl:w-1/2 p-4" onSubmit={handleSubmit}>
                 <CardElement

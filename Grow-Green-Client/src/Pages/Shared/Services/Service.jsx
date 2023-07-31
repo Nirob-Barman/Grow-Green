@@ -1,4 +1,3 @@
-import React from 'react';
 
 const Service = ({ title, description, icon }) => {
     return (

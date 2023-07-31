@@ -25,6 +25,7 @@ import AllUsers from "../Pages/DashBoard/AdminPanel/AllUsers/AllUsers";
 import Dashboard from "../Layout/Dashboard";
 import Services from "../Pages/Shared/Services/Services";
 import DashboardPage from "../Pages/DashBoard/DashboardPage";
+import Reports from "../Pages/DashBoard/AdminPanel/Reports/Reports";
 
 export const router = createBrowserRouter([
     {
@@ -80,8 +81,8 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'payment',
-                element: <Payment />
-                // element: <UserRoute><Payment /></UserRoute>
+                // element: <Payment />
+                element: <UserRoute><Payment /></UserRoute>
             },
             // Admin Routes
             {
@@ -95,6 +96,10 @@ export const router = createBrowserRouter([
             {
                 path: 'manageProducts',
                 element: <AdminRoute><ManageProducts /></AdminRoute>
+            },
+            {
+                path: 'reports',
+                element: <Reports />
             },
             // User Routes
             {

@@ -1,6 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
 import useAllProduct from './useAllProduct';
 
+// Add descriptions for each category
+const seedsDescription = "Explore a wide selection of high-quality seeds for a variety of plants and start your gardening journey.";
+const soilDescription = "Nourish your plants with nutrient-rich soil, ensuring healthy growth and flourishing gardens.";
+const trayDescription = "Get durable seeding trays designed for efficient germination and successful seedlings.";
+const toolsDescription = "Maintain your garden effortlessly with essential garden tools to enhance your gardening experience.";
+const potsDescription = "Display your plants in stylish plant pots and containers, adding charm to your indoor and outdoor spaces.";
+const stonesDescription = "Create stunning landscapes with decorative stones, adding natural beauty to your garden design.";
+const sprinklerDescription = "Keep your garden green with efficient water sprinklers and irrigation systems for optimal plant health.";
+const plantsDescription = "Embrace the beauty of indoor plants, perfect for home decor and creating a refreshing ambiance.";
+const packagingDescription = "Ensure product safety and appeal with quality materials for reliable and attractive product packaging.";
+const offeredDescription = "Discover special deals and offers tailored for you, bringing joy to your gardening shopping.";
 
 // Function to select a random item from an array
 function selectRandomItem(arr) {
@@ -110,6 +121,17 @@ function useProductCategories() {
         packaging,
         sixRandomDataPoints: getSixRandomDataPoints(),
         popularCategories,
+
+        seedsDescription,
+        soilDescription,
+        trayDescription,
+        toolsDescription,
+        potsDescription,
+        stonesDescription,
+        sprinklerDescription,
+        plantsDescription,
+        packagingDescription,
+        offeredDescription,
     };
 }
 

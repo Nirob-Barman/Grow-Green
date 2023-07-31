@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 import useAuth from '../../Hooks/useAuth';
 import useSweetAlert from '../../Hooks/useSweetAlert';
+import { Helmet } from 'react-helmet-async';
 
 const Login = () => {
 
@@ -31,6 +32,9 @@ const Login = () => {
 
     return (
         <div className='pt-20'>
+            <Helmet>
+                <title>Grow Green | Login</title>
+            </Helmet>
             <div className="relative flex flex-col items-center justify-center h-screen overflow-hidden">
                 <div className="w-full p-6 bg-white border-t-4 border-gray-600 rounded-md shadow-md border-top lg:max-w-lg">
                     <h1 className="text-3xl font-semibold text-center text-gray-700">Login Now!!!</h1>

@@ -1,6 +1,7 @@
 import SectionTitle from '../../../components/SectionTitle/SectionTitle';
 import ProductItem from '../../Products/ProductItem/ProductItem';
 import useProductCategories from '../../../Hooks/useProductCategories';
+import { Link } from 'react-router-dom';
 
 const PopularIProduct = () => {
 
@@ -25,9 +26,11 @@ const PopularIProduct = () => {
                 </div>
 
                 <div className="flex justify-center">
-                    <button className="btn btn-outline border-0 border-b-4 mt-4">
-                        View All Products
-                    </button>
+                    <Link to='/allProducts'>
+                        <button className="btn btn-outline border-0 border-b-4 mt-4">
+                            View All Products
+                        </button>
+                    </Link>
                 </div>
             </section>
         </div>

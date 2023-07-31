@@ -2,6 +2,7 @@ import axios from "axios";
 import useWishedProducts from "../../../../Hooks/useWishedProducts";
 import { Link } from "react-router-dom";
 import useSweetAlert from "../../../../Hooks/useSweetAlert";
+import { Helmet } from "react-helmet-async";
 
 const SelectedProducts = () => {
 
@@ -10,7 +11,6 @@ const SelectedProducts = () => {
     const total = wishListedProducts.reduce((sum, item) => sum + parseFloat(item.price), 0);
     // console.log(total);
     const price = total.toFixed(2)
-    console.log(price);
 
     const sweetAlert = useSweetAlert();
 
@@ -39,9 +39,12 @@ const SelectedProducts = () => {
 
     return (
         <div className="container mx-auto my-8">
+            <Helmet>
+                <title>Dashboard | Cart</title>
+            </Helmet>
             {
                 wishListedProducts.length > 0 ? <>
-                    <h2 className="text-3xl font-bold mb-4">My Selected Products</h2>
+                    <h2 className="text-3xl font-bold mb-4">My Products</h2>
 
                     <div className="my-2">
                         <Link to='/dashboard/payment'>
@@ -52,7 +55,7 @@ const SelectedProducts = () => {
 
                                 }}
                             >
-                                Pay: ${price}
+                                CheckOut
                             </button>
                         </Link>
                     </div>
@@ -80,17 +83,20 @@ const SelectedProducts = () => {
                                 Delete
                             </button>
 
-                            {/* <Link to='/dashboard/payment'>
+
+
+                            <Link to={{ pathname: '/dashboard/payment' }}>
                                 <button
                                     className="px-4 py-2 bg-blue-500 text-white rounded"
                                     onClick={() => {
                                         // Implement the logic to handle payment for the selected product
-                                        console.log(`Paying for product with ID: ${product.productId}`);
+                                        // console.log(`Paying for product with ID: ${product.productId}`);
                                     }}
                                 >
                                     Pay
                                 </button>
-                            </Link> */}
+                            </Link>
+
 
                         </div>
                     </div>

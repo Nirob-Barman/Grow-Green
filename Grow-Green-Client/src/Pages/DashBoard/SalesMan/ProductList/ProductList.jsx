@@ -165,6 +165,7 @@
 
 import { useState } from 'react';
 import useProducts from '../../../../Hooks/useProducts';
+import { Helmet } from 'react-helmet-async';
 
 const ProductList = () => {
 
@@ -195,6 +196,11 @@ const ProductList = () => {
 
     return (
         <div className="flex flex-col items-center m-4">
+
+            <Helmet>
+                <title>List of Products</title>
+            </Helmet>
+
             <div className="text-center text-xl font-bold mb-4">My products are here</div>
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {products.map((productData) => (
