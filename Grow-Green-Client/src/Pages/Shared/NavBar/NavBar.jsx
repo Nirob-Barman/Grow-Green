@@ -23,8 +23,9 @@ const NavBar = () => {
 
 
             {
-                user ? <div className='flex items-center'>
+                user && <div className='flex items-center'>
                     {/* <li><Link to="/order/seeds">Order Product</Link></li> */}
+
                     {
                         userRole === 'user' && <li>
                             <FaShoppingCart></FaShoppingCart>
@@ -40,10 +41,15 @@ const NavBar = () => {
                                 </button>
                             </Link></li>
                     }
+
                     {/* <button onClick={handleLogOut} className="btn btn-ghost">LogOut</button> */}
-                </div> : <li><Link to="/login">Login</Link></li>
+                </div>
             }
-            <li onClick={handleLogOut}><Link>LogOut</Link></li>
+
+            {
+                user ? <li onClick={handleLogOut}><Link>LogOut</Link></li> : <li><Link to="/login">Login</Link></li>
+            }
+
         </ul>
     );
 

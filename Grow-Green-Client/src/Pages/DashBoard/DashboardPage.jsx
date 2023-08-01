@@ -95,7 +95,7 @@ const DashboardPage = () => {
                                             <Link className="text-blue-500 hover:text-blue-600">Order History</Link>
                                         </li>
                                         <li>
-                                            <Link to="/dashboard/information" className="text-blue-500 hover:text-blue-600">My Account</Link>
+                                            <Link to="/dashboard/account-information" className="text-blue-500 hover:text-blue-600">My Account</Link>
                                         </li>
                                         <li>
                                             <Link onClick={handleLogOut} className="text-blue-500 hover:text-blue-600">Logout</Link>

@@ -94,6 +94,36 @@ async function run() {
             res.send(result);
         });
 
+
+        app.patch('/users/:userId', async (req, res) => {
+            const userId = req.params.userId;
+            const updatedUserData = req.body;
+
+            try {
+                // Ensure the ObjectId is created using the 'new' keyword
+                const userObjectId = new ObjectId(userId);
+
+                // Exclude the '_id' field from the update data
+                delete updatedUserData._id;
+
+                // Update the user's data in the MongoDB collection
+                const result = await usersCollection.updateOne(
+                    { _id: userObjectId }, // Filter by userObjectId
+                    { $set: updatedUserData } // Update with the new data (excluding '_id')
+                );
+
+                if (result.modifiedCount === 1) {
+                    res.json({ message: 'User data updated successfully' });
+                } else {
+                    res.status(404).json({ error: 'User not found or no changes were made' });
+                }
+            } catch (error) {
+                console.error('Error updating user:', error);
+                res.status(500).json({ error: 'Internal server error' });
+            }
+        });
+
+
         app.delete('/users/:id', async (req, res) => {
             const id = req.params.id;
 

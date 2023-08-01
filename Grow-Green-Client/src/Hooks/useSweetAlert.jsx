@@ -113,6 +113,26 @@ const useSweetAlert = () => {
         });
     };
 
+    const showUpdateUserSuccessAlert = () => {
+        Swal.fire({
+            icon: 'success',
+            title: 'Update Successful',
+            text: 'Your account information has been updated.',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+        });
+    };
+
+    const showUpdateUserErrorAlert = () => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Update Failed',
+            text: 'There was an error updating your account information. Please try again later.',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'OK',
+        });
+    };
+
     return {
         showUserCreatedSuccessAlert,
         showLoginSuccessAlert,
@@ -123,7 +143,9 @@ const useSweetAlert = () => {
         showErrorMessage,
         showDeleteSuccessMessage,
         showProductAlreadySelectedAlert,
-        showProductSelectedAlert
+        showProductSelectedAlert,
+        showUpdateUserSuccessAlert,
+        showUpdateUserErrorAlert
     };
 };
 

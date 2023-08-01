@@ -135,7 +135,7 @@ const AllProducts = () => {
                 <title>Grow Green | Products</title>
             </Helmet>
 
-            
+
             <div className="container mx-auto mt-8">
                 {/* <h2 className="text-3xl font-semibold mb-4">products Page</h2> */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

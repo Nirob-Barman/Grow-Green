@@ -26,6 +26,7 @@ import Dashboard from "../Layout/Dashboard";
 import Services from "../Pages/Shared/Services/Services";
 import DashboardPage from "../Pages/DashBoard/DashboardPage";
 import Reports from "../Pages/DashBoard/AdminPanel/Reports/Reports";
+import MyAccount from "../Pages/DashBoard/MyAccount/MyAccount";
 
 export const router = createBrowserRouter([
     {
@@ -83,6 +84,10 @@ export const router = createBrowserRouter([
                 path: 'payment',
                 // element: <Payment />
                 element: <UserRoute><Payment /></UserRoute>
+            },
+            {
+                path: 'account-information',
+                element: <MyAccount />
             },
             // Admin Routes
             {
