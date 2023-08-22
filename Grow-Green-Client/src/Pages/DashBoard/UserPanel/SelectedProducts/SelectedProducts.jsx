@@ -71,7 +71,7 @@ const SelectedProducts = () => {
                         <div>
                             <p className="text-xl font-bold mb-2">{product.productName}</p>
                             <p className="text-gray-600 mb-2">Supplier: {product.supplierName}</p>
-                            <p className="text-gray-600 mb-2">Price: ${product.price}</p>
+                            <p className="text-gray-600 mb-2">Price: {product.price} bdt</p>
                         </div>
 
                         {/* Buttons */}

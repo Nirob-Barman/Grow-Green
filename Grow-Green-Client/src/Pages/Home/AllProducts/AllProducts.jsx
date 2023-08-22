@@ -10,7 +10,7 @@ const AllProducts = () => {
     const [products, setProducts] = useState([]);
     const { user, userRole } = useAuth();
     console.log(user);
-
+    
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [, refetch] = useWishedProducts();
     const sweetAlert = useSweetAlert();
@@ -70,9 +70,6 @@ const AllProducts = () => {
 
 
 
-
-
-
     const handleSelectedProducts = async (productId, productItem) => {
         // console.log('selecting start',productId, productItem);
 
@@ -114,7 +111,7 @@ const AllProducts = () => {
             refetch();
 
             // console.log('Class selected:', classId);
-            console.log('Class:', productItem);
+            console.log('Product:', productItem);
 
             // Update the selected products state for the current user
             setSelectedProducts((prevSelectedProducts) => [...prevSelectedProducts, productId]);

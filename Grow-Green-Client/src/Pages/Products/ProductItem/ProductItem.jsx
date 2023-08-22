@@ -13,7 +13,7 @@ const ProductItem = ({ item }) => {
             </div>
             <div className="product-details">
                 <h3 className="product-name">{productName}</h3>
-                <p className="product-price">${price}</p>
+                <p className="product-price">Price: {price} bdt</p>
                 <p className="available-products">Available: {availableProducts}</p>
             </div>
         </div>
