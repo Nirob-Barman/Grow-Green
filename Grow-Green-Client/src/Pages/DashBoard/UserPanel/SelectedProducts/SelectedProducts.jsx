@@ -85,7 +85,7 @@ const SelectedProducts = () => {
 
 
 
-                            <Link to={{ pathname: '/dashboard/payment' }}>
+                            {/* <Link to={{ pathname: '/dashboard/payment' }}>
                                 <button
                                     className="px-4 py-2 bg-blue-500 text-white rounded"
                                     onClick={() => {
@@ -95,7 +95,7 @@ const SelectedProducts = () => {
                                 >
                                     Pay
                                 </button>
-                            </Link>
+                            </Link> */}
 
 
                         </div>
