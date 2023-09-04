@@ -4,9 +4,12 @@ import useFetchReviews from "../../../Hooks/useFetchReviews";
 import axios from "axios";
 import { useForm, Controller } from "react-hook-form"
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
-
+import useAuth from "../../../Hooks/useAuth";
 
 const AllReviews = () => {
+    const { user } = useAuth();
+    console.log("User: ", user);
+
     const { reviews, isLoading, error, refetch } = useFetchReviews();
     const { handleSubmit, control, reset, formState: { errors } } = useForm({
         defaultValues: {
@@ -102,83 +105,91 @@ const AllReviews = () => {
                             />
                             <p className="py-2">{review.details}</p>
                             <h3 className="text-lg text-orange-400">{review.name}</h3>
-                            <button
-                                className="bg-red-500 font-bold py-2 px-4 rounded mt-2"
-                                onClick={() => handleRemoveReview(review._id)}
-                            >
-                                Remove
-                            </button>
+
+                            {
+                                user && <button
+                                    className="bg-red-500 font-bold py-2 px-4 rounded mt-2"
+                                    onClick={() => handleRemoveReview(review._id)}
+                                >
+                                    Remove
+                                </button>
+                            }
+
                         </div>
                     ))}
 
 
+                    {
+                        user &&
+                        <form onSubmit={handleSubmit(onSubmit)} className="my-4 p-4 border rounded-lg">
+                            <h2 className="text-xl font-semibold mb-2">Add a Review</h2>
+                            <label className="block mb-2">
+                                <span className="text-gray-700">Name:</span>
+                                <Controller
+                                    name="name"
+                                    control={control}
+                                    defaultValue=""
+                                    rules={{ required: "Name is required" }}
+                                    render={({ field, fieldState }) => (
+                                        <input
+                                            {...field}
+                                            type="text"
+                                            className={`border p-2 rounded mt-1 w-full ${fieldState.invalid ? "border-red-500" : "border-gray-300"
+                                                }`}
+                                        />
+                                    )}
+                                />
+                                {errors.name && <span className="text-red-500">{errors.name.message}</span>}
+                            </label>
+                            <label className="block mb-2">
+                                <span className="text-gray-700">Details:</span>
+                                <Controller
+                                    name="details"
+                                    control={control}
+                                    defaultValue=""
+                                    rules={{ required: "Details are required" }}
+                                    render={({ field, fieldState }) => (
+                                        <textarea
+                                            {...field}
+                                            rows={4}
+                                            className={`border p-2 rounded mt-1 w-full ${fieldState.invalid ? "border-red-500" : "border-gray-300"
+                                                }`}
+                                        />
+                                    )}
+                                />
+                                {errors.details && <span className="text-red-500">{errors.details.message}</span>}
+                            </label>
+                            <label className="block mb-2">
+                                <span className="text-gray-700">Rating:</span>
+                                <Controller
+                                    name="rating"
+                                    control={control}
+                                    defaultValue={5}
+                                    rules={{ required: "Rating is required" }}
+                                    render={({ field, fieldState }) => (
+                                        <select
+                                            {...field}
+                                            className={`border p-2 rounded mt-1 w-full ${fieldState.invalid ? "border-red-500" : "border-gray-300"
+                                                }`}
+                                        >
+                                            <option value="5">5 Stars</option>
+                                            <option value="4">4 Stars</option>
+                                            <option value="3">3 Stars</option>
+                                            <option value="2">2 Stars</option>
+                                            <option value="1">1 Star</option>
+                                        </select>
+                                    )}
+                                />
+                                {errors.rating && <span className="text-red-500">{errors.rating.message}</span>}
+                            </label>
+                            <button type="submit" className="bg-blue-500  font-bold py-2 px-4 rounded">
+                                Submit Review
+                            </button>
+                        </form>
+                    }
 
 
-                    <form onSubmit={handleSubmit(onSubmit)} className="my-4 p-4 border rounded-lg">
-                        <h2 className="text-xl font-semibold mb-2">Add a Review</h2>
-                        <label className="block mb-2">
-                            <span className="text-gray-700">Name:</span>
-                            <Controller
-                                name="name"
-                                control={control}
-                                defaultValue=""
-                                rules={{ required: "Name is required" }}
-                                render={({ field, fieldState }) => (
-                                    <input
-                                        {...field}
-                                        type="text"
-                                        className={`border p-2 rounded mt-1 w-full ${fieldState.invalid ? "border-red-500" : "border-gray-300"
-                                            }`}
-                                    />
-                                )}
-                            />
-                            {errors.name && <span className="text-red-500">{errors.name.message}</span>}
-                        </label>
-                        <label className="block mb-2">
-                            <span className="text-gray-700">Details:</span>
-                            <Controller
-                                name="details"
-                                control={control}
-                                defaultValue=""
-                                rules={{ required: "Details are required" }}
-                                render={({ field, fieldState }) => (
-                                    <textarea
-                                        {...field}
-                                        rows={4}
-                                        className={`border p-2 rounded mt-1 w-full ${fieldState.invalid ? "border-red-500" : "border-gray-300"
-                                            }`}
-                                    />
-                                )}
-                            />
-                            {errors.details && <span className="text-red-500">{errors.details.message}</span>}
-                        </label>
-                        <label className="block mb-2">
-                            <span className="text-gray-700">Rating:</span>
-                            <Controller
-                                name="rating"
-                                control={control}
-                                defaultValue={5}
-                                rules={{ required: "Rating is required" }}
-                                render={({ field, fieldState }) => (
-                                    <select
-                                        {...field}
-                                        className={`border p-2 rounded mt-1 w-full ${fieldState.invalid ? "border-red-500" : "border-gray-300"
-                                            }`}
-                                    >
-                                        <option value="5">5 Stars</option>
-                                        <option value="4">4 Stars</option>
-                                        <option value="3">3 Stars</option>
-                                        <option value="2">2 Stars</option>
-                                        <option value="1">1 Star</option>
-                                    </select>
-                                )}
-                            />
-                            {errors.rating && <span className="text-red-500">{errors.rating.message}</span>}
-                        </label>
-                        <button type="submit" className="bg-blue-500  font-bold py-2 px-4 rounded">
-                            Submit Review
-                        </button>
-                    </form>
+
                 </div>
             )}
 
